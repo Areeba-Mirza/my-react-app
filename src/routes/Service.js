@@ -1,6 +1,6 @@
+import React from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/hero";
-import travelImg from "../assets/service.jpg";
 import Footer from "../components/Footer";
 import Trip from "../components/trip";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +18,7 @@ function Service() {
 
       <Hero
         cName="hero-mid"
-        heroImg={travelImg}
+        heroImg="/images/service.jpg" // ✅ public folder image
         title="Our Services"
         btnClass="hide"
       />
@@ -47,8 +47,7 @@ function Service() {
           e.currentTarget.style.boxShadow = "none";
         }}
       >
-        For more details about our packages, please{" "}
-        <strong>Login</strong>
+        For more details about our packages, please <strong>Login</strong>
       </div>
 
       <Footer />

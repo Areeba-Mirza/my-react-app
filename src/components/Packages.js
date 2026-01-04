@@ -2,31 +2,23 @@
 import React, { useState } from "react";
 import BookingForm from "./BookingForm"; // ✅ Naya component jo form handle karega
 
-// ✅ Images
-import skardu from "../assets/skardu.jpeg";
-import fairy from "../assets/fairy.jpeg";
-import neelum from "../assets/neelum.jpeg";
-import kumrat from "../assets/kumrat.jpeg";
-import hunzaSkardu from "../assets/hunza-skardu.jpeg";
-import hunza from "../assets/hunza.jpeg";
-import swat from "../assets/images1.jpg";
-import naran from "../assets/naran.jpeg";
+import "./Packages.css"; // optional, agar tum CSS alag se use kar rahi ho
 
-// ✅ Packages data
+// ✅ Packages data with public folder images
 const packagesData = [
-  { title: "SKARDU VALLEY", days: "06 Days Trip", priceSingle: "PKR 30,000/-", priceCouple: "PKR 70,000/-", departure: "DEPARTURE: EVERY MONDAY NIGHT", img: skardu },
-  { title: "FAIRY MEADOWS", days: "05 Days Trip", priceSingle: "PKR 25,000/-", priceCouple: "PKR 60,000/-", departure: "DEPARTURE: EVERY TUESDAY & FRIDAY NIGHT", img: fairy },
-  { title: "NEELUM VALLEY", days: "03 Days Trip", priceSingle: "PKR 15,500/-", priceCouple: "PKR 36,000/-", departure: "DEPARTURE: EVERY MONDAY & THURSDAY NIGHT", img: neelum },
-  { title: "KUMRAT VALLEY", days: "03 Days Trip", priceSingle: "PKR 15,500/-", priceCouple: "PKR 36,000/-", departure: "DEPARTURE: EVERY THURSDAY NIGHT", img: kumrat },
-  { title: "HUNZA + SKARDU", days: "08 Days Trip", priceSingle: "PKR 35,000/-", priceCouple: "PKR 80,000/-", departure: "DEPARTURE: EVERY FRIDAY NIGHT", img: hunzaSkardu },
-  { title: "HUNZA VALLEY", days: "05 Days Trip", priceSingle: "PKR 25,000/-", priceCouple: "PKR 60,000/-", departure: "DEPARTURE: EVERY TUESDAY & FRIDAY NIGHT", img: hunza },
-  { title: "SWAT KALAM", days: "03 Days Trip", priceSingle: "PKR 15,500/-", priceCouple: "PKR 36,000/-", departure: "DEPARTURE: EVERY MONDAY NIGHT", img: swat },
-  { title: "NARAN VALLEY", days: "03 Days Trip", priceSingle: "PKR 15,500/-", priceCouple: "PKR 36,000/-", departure: "DEPARTURE: EVERY THURSDAY NIGHT", img: naran }
+  { title: "SKARDU VALLEY", days: "06 Days Trip", priceSingle: "PKR 30,000/-", priceCouple: "PKR 70,000/-", departure: "DEPARTURE: EVERY MONDAY NIGHT", img: "/images/skardu.jpeg" },
+  { title: "FAIRY MEADOWS", days: "05 Days Trip", priceSingle: "PKR 25,000/-", priceCouple: "PKR 60,000/-", departure: "DEPARTURE: EVERY TUESDAY & FRIDAY NIGHT", img: "/images/fairy.jpeg" },
+  { title: "NEELUM VALLEY", days: "03 Days Trip", priceSingle: "PKR 15,500/-", priceCouple: "PKR 36,000/-", departure: "DEPARTURE: EVERY MONDAY & THURSDAY NIGHT", img: "/images/neelum.jpeg" },
+  { title: "KUMRAT VALLEY", days: "03 Days Trip", priceSingle: "PKR 15,500/-", priceCouple: "PKR 36,000/-", departure: "DEPARTURE: EVERY THURSDAY NIGHT", img: "/images/kumrat.jpeg" },
+  { title: "HUNZA + SKARDU", days: "08 Days Trip", priceSingle: "PKR 35,000/-", priceCouple: "PKR 80,000/-", departure: "DEPARTURE: EVERY FRIDAY NIGHT", img: "/images/hunza-skardu.jpeg" },
+  { title: "HUNZA VALLEY", days: "05 Days Trip", priceSingle: "PKR 25,000/-", priceCouple: "PKR 60,000/-", departure: "DEPARTURE: EVERY TUESDAY & FRIDAY NIGHT", img: "/images/hunza.jpeg" },
+  { title: "SWAT KALAM", days: "03 Days Trip", priceSingle: "PKR 15,500/-", priceCouple: "PKR 36,000/-", departure: "DEPARTURE: EVERY MONDAY NIGHT", img: "/images/images1.jpg" },
+  { title: "NARAN VALLEY", days: "03 Days Trip", priceSingle: "PKR 15,500/-", priceCouple: "PKR 36,000/-", departure: "DEPARTURE: EVERY THURSDAY NIGHT", img: "/images/naran.jpeg" }
 ];
 
 export default function Packages() {
-  const [showForm, setShowForm] = useState(false); // ✅ Form show/hide
-  const [selectedPackage, setSelectedPackage] = useState(""); // ✅ Kaunsa package book ho raha
+  const [showForm, setShowForm] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState("");
 
   const handleBookNow = (pkg) => {
     setSelectedPackage(pkg.title);
@@ -63,7 +55,7 @@ export default function Packages() {
               <p style={{ margin: "5px 0" }}>Per Person: {pkg.priceSingle}</p>
               <p style={{ margin: "5px 0" }}>Couple: {pkg.priceCouple}</p>
               <p style={{ margin: "5px 0", fontWeight: "bold", color: "#333" }}>{pkg.departure}</p>
-              <button 
+              <button
                 style={{
                   marginTop: "10px",
                   padding: "10px 15px",
