@@ -6,12 +6,12 @@ import './login.css';
 function Login({ setIsLoggedIn, setUserRole }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [adminPassword, setAdminPassword] = useState(''); // Admin password input
-  const [role, setRole] = useState('user'); // default role
+  const [adminPassword, setAdminPassword] = useState('');
+  const [role, setRole] = useState('user');
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
-  // Load saved credentials if "Remember me" was checked
+  // Load saved credentials
   useEffect(() => {
     const savedEmail = localStorage.getItem('email');
     const savedPassword = localStorage.getItem('password');
@@ -33,23 +33,16 @@ function Login({ setIsLoggedIn, setUserRole }) {
       return;
     }
 
-    // Admin password validation
     if (role === 'admin' && adminPassword !== 'Admin1199') {
       alert('Incorrect Admin Password!');
       return;
     }
 
     try {
-      // Backend login call
-      const response = await axios.post('http://localhost:5000/login', {
-        email,
-        password,
-      });
-
+      const response = await axios.post('http://localhost:5000/login', { email, password });
       const data = response.data;
 
       if (data.message === 'Login successful') {
-        // Save credentials if "Remember me" checked
         if (rememberMe) {
           localStorage.setItem('email', email);
           localStorage.setItem('password', password);
@@ -60,11 +53,9 @@ function Login({ setIsLoggedIn, setUserRole }) {
           localStorage.removeItem('role');
         }
 
-        // Update login state
         setIsLoggedIn(true);
         setUserRole(role);
         localStorage.setItem('isLoggedIn', 'true');
-
         navigate('/dashboard');
       } else {
         alert(data.error || 'Login failed.');
@@ -76,7 +67,14 @@ function Login({ setIsLoggedIn, setUserRole }) {
   };
 
   return (
-    <div className="login-page">
+    <div
+      className="login-page"
+      style={{
+        backgroundImage: `url('/images/bkg1.jpg')`, // ✅ public folder path
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       <div className="container left-container">
         <form className="login-form" onSubmit={handleSubmit}>
           <h3 className="form-title">Login to Your Account</h3>
@@ -102,11 +100,7 @@ function Login({ setIsLoggedIn, setUserRole }) {
           />
 
           <label htmlFor="role">Login as:</label>
-          <select
-            id="role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          >
+          <select id="role" value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="user">User</option>
             <option value="admin">Admin</option>
           </select>

@@ -1,58 +1,126 @@
-import React from "react";
-import Navbar from "../components/Navbar";
-import Hero from "../components/hero";
-import Footer from "../components/Footer";
-import Trip from "../components/trip";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import './Signup.css';
 
-function Service() {
+const Signup = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    country: '',
+    email: '',
+    password: '',
+  });
+  const [status, setStatus] = useState('');
   const navigate = useNavigate();
 
-  const handleLoginRedirect = () => {
-    navigate("/login"); // Redirect user to login page
+  const handleChange = (e) =>
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('Signing up...');
+
+    try {
+      const response = await axios.post('http://localhost:5000/signup', {
+        username: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (response.data.message === 'Signup successful') {
+        setStatus('Signup successful! Redirecting to login...');
+        setFormData({ name: '', country: '', email: '', password: '' });
+
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+      } else {
+        setStatus(response.data.error || 'Signup failed. Try again.');
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus(err.response?.data?.error || 'Signup failed. Try again.');
+    }
   };
 
   return (
-    <>
-      <Navbar />
+    <div
+      className="signup-background"
+      style={{
+        backgroundImage: `url('/images/bkg.jpg')`, // ✅ public folder path
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      <div className="signup-container">
+        <div className="signup-left">
+          <button className="back-btn" onClick={() => window.history.back()}>
+            &larr; Back
+          </button>
+          <span className="new-traveler-label">New traveler</span>
+          <h1 className="signup-title">Explore travel destinations</h1>
+          <p className="signup-subtitle">The best places for your wild adventures.</p>
 
-      <Hero
-        cName="hero-mid"
-        heroImg="/images/service.jpg" // ✅ public folder image
-        title="Our Services"
-        btnClass="hide"
-      />
+          <form className="signup-form" onSubmit={handleSubmit}>
+            <div className="input-row">
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                autoComplete="off"
+              />
+              <input
+                type="text"
+                name="country"
+                placeholder="Country"
+                value={formData.country}
+                onChange={handleChange}
+                required
+                autoComplete="off"
+              />
+            </div>
 
-      <Trip />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              autoComplete="off"
+            />
 
-      {/* Login prompt for more details */}
-      <div
-        onClick={handleLoginRedirect}
-        style={{
-          maxWidth: "600px",
-          margin: "40px auto",
-          padding: "20px",
-          textAlign: "center",
-          backgroundColor: "#f5f5f5d5",
-          borderRadius: "8px",
-          cursor: "pointer",
-          transition: "transform 0.2s, box-shadow 0.2s",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = "scale(1.02)";
-          e.currentTarget.style.boxShadow = "0 4px 15px rgba(0,0,0,0.2)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = "scale(1)";
-          e.currentTarget.style.boxShadow = "none";
-        }}
-      >
-        For more details about our packages, please <strong>Login</strong>
+            <input
+              type="password"
+              name="password"
+              placeholder="Create password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              autoComplete="off"
+            />
+
+            <button type="submit" className="signup-btn">Sign up</button>
+          </form>
+
+          {status && <p className="signup-status">{status}</p>}
+        </div>
+
+        <div className="signup-right">
+          <blockquote className="quote">
+            <span className="quote-mark">“</span>
+            Great things never came from comfort zones.
+          </blockquote>
+          <div className="signin-link">
+            Already a traveler? <a href="/login">Sign in</a>
+          </div>
+        </div>
       </div>
-
-      <Footer />
-    </>
+    </div>
   );
-}
+};
 
-export default Service;
+export default Signup;
